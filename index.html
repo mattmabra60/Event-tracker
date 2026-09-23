@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WTM — What's the move?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#feed" data-page-link="feed" aria-label="WTM home">
+        <span class="brand-mark">w<span>t</span>m</span>
+        <span class="brand-copy">what's the<br />move?</span>
+      </a>
+
+      <nav class="side-nav" aria-label="Main navigation">
+        <p class="nav-label">Explore</p>
+        <button class="nav-item active" data-page="feed"><span class="nav-icon">✦</span><span>For you</span></button>
+        <button class="nav-item" data-page="search"><span class="nav-icon">⌕</span><span>Search events</span></button>
+        <button class="nav-item" data-page="map"><span class="nav-icon">⌖</span><span>Map view</span></button>
+        <p class="nav-label saved-label">Your WTM</p>
+        <button class="nav-item" data-page="saved"><span class="nav-icon">♡</span><span>Saved events</span><span class="count">4</span></button>
+        <button class="nav-item" data-page="profile"><span class="nav-icon">◉</span><span>Profile</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="weather-card"><span class="weather-icon">☀</span><div><strong>68°</strong><small>Rexburg, ID</small></div><span class="weather-more">···</span></div>
+        <div class="mini-profile"><div class="avatar avatar-small">JM</div><div><strong>Jordan Miller</strong><small>@jordanm</small></div><span>•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="mobile-header">
+        <a class="brand" href="#feed" data-page-link="feed"><span class="brand-mark">w<span>t</span>m</span></a>
+        <button class="icon-button" aria-label="Open menu">☰</button>
+      </header>
+
+      <section class="page-section active-page" id="feed-page" data-section="feed">
+        <div class="topbar"><div><p class="eyebrow">REXBURG, ID <span class="live-dot"></span></p><h1>What’s happening <em>today?</em></h1></div><button class="notification" aria-label="Notifications">♧<span></span></button></div>
+        <div class="hero-banner"><div><span class="tag tag-lime">TONIGHT · 8:00 PM</span><h2>Rexburg is <em>alive.</em></h2><p>Find your people. Find your place.<br />Make tonight worth remembering.</p><button class="text-button" data-page-link="search">Explore what's on <span>→</span></button></div><div class="scribble">✳<br /><small>LOCAL<br />ONLY</small></div></div>
+        <div class="section-heading"><div><span class="eyebrow">CURATED FOR YOU</span><h2>On the radar <span>↗</span></h2></div><button class="filter-button" data-page-link="search">View all <span>→</span></button></div>
+        <div class="event-grid">
+          <article class="event-card featured"><div class="event-image sunset"><span class="category">MUSIC</span><button class="save-button" aria-label="Save event">♡</button><div class="image-note">live<br />music<br />+good<br />people</div></div><div class="event-body"><div class="event-meta"><span>FRI, SEP 25 · 8 PM</span><span class="distance">0.8 mi</span></div><h3>Rexburg Rooftop Sessions</h3><p>Kindred Coffee &amp; Co. · Downtown</p><div class="attending"><div class="faces"><span>MK</span><span>AJ</span><span>+8</span></div><small>10 friends are going</small></div></div></article>
+          <article class="event-card"><div class="event-image green"><span class="category">OUTDOORS</span><button class="save-button" aria-label="Save event">♡</button><div class="image-title">sunset<br /><strong>hike</strong></div><div class="mountain-shape"></div></div><div class="event-body"><div class="event-meta"><span>SAT, SEP 26 · 6 PM</span><span class="distance">2.4 mi</span></div><h3>Table Rock Sunset Hike</h3><p>Table Rock Trailhead · South Rexburg</p><div class="attending"><div class="faces faces-muted"><span>+</span><span>12</span></div><small>12 people are going</small></div></div></article>
+          <article class="event-card"><div class="event-image orange"><span class="category">FOOD</span><button class="save-button" aria-label="Save event">♡</button><div class="image-title big-word">TACO<br /><strong>WALK</strong></div></div><div class="event-body"><div class="event-meta"><span>SUN, SEP 27 · 12 PM</span><span class="distance">1.1 mi</span></div><h3>Downtown Taco Walk</h3><p>Main Street · Downtown Rexburg</p><div class="attending"><div class="faces faces-muted"><span>+</span><span>27</span></div><small>27 people are going</small></div></div></article>
+        </div>
+        <div class="section-heading upcoming-heading"><div><span class="eyebrow">KEEP SCROLLING</span><h2>Coming up <span>↘</span></h2></div><button class="filter-button" data-page-link="search">Filter <span>⌄</span></button></div>
+        <div class="compact-events"><div class="compact-date"><strong>28</strong><span>SEP<br />MON</span></div><div><span class="compact-type">COMMUNITY</span><h3>Open Mic at The Porch</h3><p>7:00 PM · The Porch Cafe</p></div><button class="compact-arrow">→</button></div>
+      </section>
+
+      <section class="page-section" id="search-page" data-section="search"><div class="topbar"><div><p class="eyebrow">DISCOVER SOMETHING NEW</p><h1>Find your <em>next move.</em></h1></div></div><div class="search-bar"><span>⌕</span><input id="event-search" type="search" placeholder="Search events, places, or vibes" /><kbd>/</kbd></div><div class="search-chips"><button class="chip active">All events</button><button class="chip">Tonight</button><button class="chip">This weekend</button><button class="chip">Free</button></div><div class="search-result-head"><h2>Popular near you</h2><span>24 events</span></div><div class="search-list" id="search-list"><div class="search-result" data-search="farmers market food downtown free"><div class="result-icon yellow">✿</div><div><span class="compact-type">MARKET · SAT, SEP 26</span><h3>Rexburg Farmers Market</h3><p>9:00 AM · Porter Park · 0.6 mi</p></div><button class="save-button plain">♡</button></div><div class="search-result" data-search="comedy show night fun"><div class="result-icon purple">☻</div><div><span class="compact-type">NIGHTLIFE · FRI, SEP 25</span><h3>Laughs at The Atrium</h3><p>9:30 PM · The Atrium · 1.2 mi</p></div><button class="save-button plain">♡</button></div><div class="search-result" data-search="volunteer community service"><div class="result-icon blue">✦</div><div><span class="compact-type">COMMUNITY · SAT, SEP 26</span><h3>River Cleanup Crew</h3><p>10:00 AM · Smith Park · 2.1 mi</p></div><button class="save-button plain">♡</button></div></div></section>
+
+      <section class="page-section" id="map-page" data-section="map"><div class="topbar"><div><p class="eyebrow">LIVE EVENT MAP</p><h1>What's close to <em>you?</em></h1></div><button class="round-control">⌖</button></div><div class="map-wrap"><div class="map-grid"></div><div class="map-road road-one"></div><div class="map-road road-two"></div><div class="map-road road-three"></div><div class="map-label label-one">DOWNTOWN</div><div class="map-label label-two">BYU–IDAHO</div><div class="map-label label-three">PORTER PARK</div><button class="map-pin pin-one active" data-map-title="Rooftop Sessions" data-map-place="Kindred Coffee · 0.8 mi">✦</button><button class="map-pin pin-two" data-map-title="Farmers Market" data-map-place="Porter Park · 0.6 mi">✿</button><button class="map-pin pin-three" data-map-title="Laughs at The Atrium" data-map-place="The Atrium · 1.2 mi">☻</button><div class="map-card"><span class="compact-type">HAPPENING SOON</span><h3 id="map-title">Rexburg Rooftop Sessions</h3><p id="map-place">Kindred Coffee &amp; Co. · 0.8 mi away</p><button class="map-card-link">View event →</button></div></div><div class="map-legend"><span><i class="dot music-dot"></i> Music</span><span><i class="dot food-dot"></i> Food &amp; markets</span><span><i class="dot community-dot"></i> Community</span></div></section>
+
+      <section class="page-section" id="saved-page" data-section="saved"><div class="topbar"><div><p class="eyebrow">YOUR SHORTLIST</p><h1>Saved for <em>later.</em></h1></div></div><div class="saved-note"><span>♡</span><div><strong>Good choices.</strong><p>These are the events you said you wanted to remember.</p></div></div><div class="saved-list"><div class="saved-row"><div class="date-tile"><strong>25</strong><span>SEP</span></div><div><span class="compact-type">MUSIC · 8:00 PM</span><h3>Rexburg Rooftop Sessions</h3><p>Kindred Coffee &amp; Co.</p></div><button class="save-button saved-active">♥</button></div><div class="saved-row"><div class="date-tile date-blue"><strong>26</strong><span>SEP</span></div><div><span class="compact-type">OUTDOORS · 6:00 PM</span><h3>Table Rock Sunset Hike</h3><p>Table Rock Trailhead</p></div><button class="save-button saved-active">♥</button></div></div></section>
+
+      <section class="page-section" id="profile-page" data-section="profile"><div class="profile-cover"><div class="cover-text">LOCAL<br /><em>ENERGY</em></div></div><div class="profile-heading"><div class="avatar avatar-large">JM</div><button class="edit-profile">Edit profile</button><h1>Jordan Miller</h1><p>@jordanm · Rexburg, ID</p><div class="profile-stats"><span><strong>24</strong> events saved</span><span><strong>8</strong> moves made</span><span><strong>12</strong> friends</span></div></div><div class="profile-section-title"><h2>My vibe lately</h2><span>this month</span></div><div class="vibe-tags"><span>✦ Live music</span><span>☼ Outdoors</span><span>☻ New food</span><span>＋ Community</span></div></section>
+    </main>
+  </div>
+  <script>
+    const sections = document.querySelectorAll('.page-section');
+    const navItems = document.querySelectorAll('[data-page]');
+    const pageLinks = document.querySelectorAll('[data-page-link]');
+    function showPage(page) { sections.forEach(section => section.classList.toggle('active-page', section.dataset.section === page)); navItems.forEach(item => item.classList.toggle('active', item.dataset.page === page)); window.scrollTo({top: 0, behavior: 'smooth'}); }
+    navItems.forEach(item => item.addEventListener('click', () => showPage(item.dataset.page)));
+    pageLinks.forEach(link => link.addEventListener('click', event => { event.preventDefault(); showPage(link.dataset.pageLink); }));
+    document.querySelectorAll('.save-button').forEach(button => button.addEventListener('click', () => { button.classList.toggle('saved-active'); button.textContent = button.classList.contains('saved-active') ? '♥' : '♡'; }));
+    document.querySelectorAll('.map-pin').forEach(pin => pin.addEventListener('click', () => { document.querySelectorAll('.map-pin').forEach(item => item.classList.remove('active')); pin.classList.add('active'); document.querySelector('#map-title').textContent = pin.dataset.mapTitle; document.querySelector('#map-place').textContent = pin.dataset.mapPlace; }));
+    document.querySelector('#event-search').addEventListener('input', event => { const query = event.target.value.toLowerCase(); document.querySelectorAll('.search-result').forEach(result => result.hidden = !result.dataset.search.includes(query)); });
+    document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => { document.querySelectorAll('.chip').forEach(item => item.classList.remove('active')); chip.classList.add('active'); }));
+  </script>
+</body>
+</html>
