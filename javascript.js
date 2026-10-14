@@ -61,3 +61,28 @@ document.querySelectorAll('.chip').forEach(chip => {
     chip.classList.add('active');
   });
 });
+
+// Use the Supabase project URL here, not the /rest/v1/ endpoint.
+// The Supabase client adds the correct API paths itself.
+const SUPABASE_URL = 'https://jvaximbcbfeiwlnhhiqe.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_drMmHtQl9t0CWPRim39aAQ_Ply9BZBQ';
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+async function getEvents() {
+  const { data, error } = await supabaseClient
+    .from('events')
+    .select('*')
+    .order('starts_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching events:', error.message);
+    return [];
+  }
+
+  console.log('Events loaded from Supabase:', data);
+
+  return data;
+}
+
+getEvents();
