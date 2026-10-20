@@ -78,7 +78,6 @@
         <div class="profile-heading" id="profile-heading">
           <div class="avatar avatar-large" data-profile-avatar>WT</div>
           <button class="edit-profile" type="button" data-edit-profile>Edit profile</button>
-          <button class="profile-signout" type="button" data-sign-out>Sign out</button>
             <h1 id="profile-name">Your profile</h1>
             <p id="profile-location">Sign in to personalize your profile</p>
           <div class="profile-stats">
@@ -90,7 +89,16 @@
           <h2>Account settings</h2>
           <span>private</span>
         </div>
-        <p class="profile-helper">Keep your name, handle, location, and avatar up to date so WTM can personalize your experience.</p>
+        <div class="account-settings">
+          <div class="settings-row"><span>Display name</span><strong id="account-display-name">Not set</strong></div>
+          <div class="settings-row"><span>Handle</span><strong id="account-handle">@your_handle</strong></div>
+          <div class="settings-row"><span>Email</span><strong id="account-email">Sign in required</strong></div>
+          <div class="settings-row"><span>Location</span><strong id="account-location">Rexburg, ID</strong></div>
+          <div class="settings-row"><span>Avatar</span><strong id="account-avatar-status">Initials</strong></div>
+          <p class="profile-helper">Update your details to personalize event discovery, weather, and the map.</p>
+          <button class="profile-settings-edit" type="button" data-edit-profile>Edit profile details</button>
+          <button class="profile-signout" type="button" data-sign-out hidden>Sign out</button>
+        </div>
             </section>
           </main>
         </div>

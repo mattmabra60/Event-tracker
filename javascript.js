@@ -1,6 +1,7 @@
 const SUPABASE_URL = 'https://jvaximbcbfeiwlnhhiqe.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_drMmHtQl9t0CWPRim39aAQ_Ply9BZBQ';
 const pageName = document.body.dataset.page;
+const CARTO_BASEMAP_KEY = 'cb1_4pej_1_866bc4ff52a37dfc570b85c8';
 const supabaseClient = window.supabase
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
   : null;
@@ -13,6 +14,7 @@ let attendanceEventIds = new Set();
 let currentLocation = { name: 'Rexburg, ID', latitude: 43.8231, longitude: -111.7924 };
 let mapInstance = null;
 let mapMarkers = [];
+let selectedMapMarker = null;
 
 const fallbackEvents = [
   { id: 'fallback-rooftop', title: 'Rexburg Rooftop Sessions', description: 'Live music and good people.', category: 'MUSIC', venue: 'The Cove', address: '220 S 2nd W', city: 'Rexburg', state: 'ID', starts_at: '2026-10-23T20:00:00-06:00', price: 0, image_theme: 'sunset' },
@@ -236,6 +238,7 @@ function renderSearch() {
   if (list) list.innerHTML = events.map(searchResult).join('');
   const count = document.querySelector('#search-count');
   if (count) count.textContent = `${events.length} events`;
+  if (list) applySearchFilters();
 }
 
 async function renderSaved() {
@@ -256,16 +259,31 @@ function renderProfile() {
   const signOut = document.querySelector('.profile-signout');
   if (signOut) signOut.hidden = !currentUser;
   if (!name) return;
+  const settingsName = document.querySelector('#account-display-name');
+  const settingsHandle = document.querySelector('#account-handle');
+  const settingsEmail = document.querySelector('#account-email');
+  const settingsLocation = document.querySelector('#account-location');
+  const settingsAvatar = document.querySelector('#account-avatar-status');
   if (!currentUser) {
     name.textContent = 'Your profile';
     location.textContent = 'Sign in to personalize your profile';
     if (savedCount) savedCount.textContent = '0';
+    if (settingsName) settingsName.textContent = 'Not set';
+    if (settingsHandle) settingsHandle.textContent = '@your_handle';
+    if (settingsEmail) settingsEmail.textContent = 'Sign in required';
+    if (settingsLocation) settingsLocation.textContent = 'Rexburg, ID';
+    if (settingsAvatar) settingsAvatar.textContent = 'Initials';
     return;
   }
   const fullName = currentProfile?.display_name || currentUser.user_metadata?.display_name || currentUser.email?.split('@')[0] || 'WTM member';
   name.textContent = firstNameForDisplay(fullName);
   location.textContent = `${currentProfile?.username ? `@${currentProfile.username} · ` : ''}${currentProfile?.city || 'Rexburg'}, ${currentProfile?.state || 'ID'}`;
   if (savedCount) savedCount.textContent = String(savedEventIds.size);
+  if (settingsName) settingsName.textContent = fullName;
+  if (settingsHandle) settingsHandle.textContent = currentProfile?.username ? `@${currentProfile.username}` : '@your_handle';
+  if (settingsEmail) settingsEmail.textContent = currentUser.email || 'Email unavailable';
+  if (settingsLocation) settingsLocation.textContent = `${currentProfile?.city || 'Rexburg'}, ${currentProfile?.state || 'ID'}`;
+  if (settingsAvatar) settingsAvatar.textContent = currentProfile?.avatar_url ? 'Custom image' : `${initialsFor(fullName)} initials`;
 }
 
 function openProfileEditor() {
@@ -315,35 +333,68 @@ async function saveProfile(form) {
   closeProfileEditor();
 }
 
+function markerIconFor(event, selected = false) {
+  const category = String(event.category || '').toUpperCase();
+  const markerStyles = {
+    MUSIC: { color: '#6f54ff', glyph: '\u266a' },
+    FOOD: { color: '#efb63e', glyph: '\u2736' },
+    MARKET: { color: '#efb63e', glyph: '\u273f' },
+    OUTDOORS: { color: '#6bb5a6', glyph: '\u25d2' },
+    COMMUNITY: { color: '#4d9f92', glyph: '\u2665' },
+    NIGHTLIFE: { color: '#d85b91', glyph: '\u263a' }
+  };
+  const style = markerStyles[category] || { color: '#ff715b', glyph: '\u2022' };
+  return window.L.divIcon({
+    className: 'wtm-map-marker-wrapper',
+    html: `<span class="wtm-map-marker${selected ? ' is-selected' : ''}" style="--marker-color:${style.color}" aria-hidden="true"><span>${style.glyph}</span></span>`,
+    iconSize: selected ? [48, 48] : [42, 42],
+    iconAnchor: selected ? [24, 24] : [21, 21],
+    popupAnchor: [0, selected ? -24 : -21]
+  });
+}
+
 function renderMap() {
   const mapElement = document.querySelector('#leaflet-map');
   if (!mapElement || !window.L) return;
   if (mapInstance) mapInstance.remove();
-  mapInstance = window.L.map(mapElement).setView([currentLocation.latitude, currentLocation.longitude], 12);
-  window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(mapInstance);
+  selectedMapMarker = null;
+  mapInstance = window.L.map(mapElement, { zoomControl: false }).setView([currentLocation.latitude, currentLocation.longitude], 12);
+  window.L.tileLayer(
+  `https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(CARTO_BASEMAP_KEY)}`,
+  {
+    maxZoom: 20,
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }
+).addTo(mapInstance);
+  window.L.control.zoom({ position: 'topright' }).addTo(mapInstance);
   mapMarkers = [];
   const firstEvent = events[0];
   if (firstEvent) {
     const title = document.querySelector('#map-title');
     const place = document.querySelector('#map-place');
     if (title) title.textContent = firstEvent.title;
-    if (place) place.textContent = `${firstEvent.venue || firstEvent.city} · ${formatEventDate(firstEvent.starts_at)}`;
+    if (place) place.textContent = `${firstEvent.venue || firstEvent.city} \u00b7 ${formatEventDate(firstEvent.starts_at)}`;
   }
 
   events.forEach((event, index) => {
     const latitude = Number(event.latitude) || currentLocation.latitude + ((index % 3) - 1) * 0.006;
     const longitude = Number(event.longitude) || currentLocation.longitude + ((index % 2) - 0.5) * 0.008;
-    const marker = window.L.marker([latitude, longitude]).addTo(mapInstance);
+    const marker = window.L.marker([latitude, longitude], { icon: markerIconFor(event) }).addTo(mapInstance);
     marker.bindPopup(`<strong>${escapeHtml(event.title)}</strong><br />${escapeHtml(event.venue || event.city)}<br /><button class="map-popup-action" data-event-id="${escapeHtml(event.id)}">View event</button>`);
     marker.on('click', () => {
+      if (selectedMapMarker && selectedMapMarker !== marker) {
+        const previousEvent = selectedMapMarker.options.eventData;
+        selectedMapMarker.setIcon(markerIconFor(previousEvent));
+      }
+      marker.setIcon(markerIconFor(event, true));
+      selectedMapMarker = marker;
       const title = document.querySelector('#map-title');
       const place = document.querySelector('#map-place');
       if (title) title.textContent = event.title;
-      if (place) place.textContent = `${event.venue || event.city} · ${formatEventDate(event.starts_at)}`;
+      if (place) place.textContent = `${event.venue || event.city} \u00b7 ${formatEventDate(event.starts_at)}`;
     });
+    marker.options.eventData = event;
     mapMarkers.push(marker);
   });
 
@@ -367,7 +418,7 @@ function applySearchFilters() {
   let visibleCount = 0;
   results.forEach(result => {
     const event = events.find(item => String(item.id) === result.dataset.eventId);
-    const matchesQuery = !activeSearchQuery || result.dataset.search.includes(activeSearchQuery);
+    const matchesQuery = !activeSearchQuery || (event && eventSearchText(event).includes(activeSearchQuery));
     const eventDate = event ? new Date(event.starts_at) : now;
     const day = eventDate.getDay();
     const matchesFilter = activeSearchFilter === 'all'
@@ -439,13 +490,6 @@ function wireInteractions() {
     if (event.target.closest('[data-edit-profile]')) { event.preventDefault(); openProfileEditor(); return; }
     if (event.target.closest('[data-close-profile]')) { event.preventDefault(); closeProfileEditor(); return; }
     if (event.target.closest('.map-popup-action')) { window.location.href = 'search.html'; return; }
-    const pin = event.target.closest('.map-pin');
-    if (pin) {
-      document.querySelectorAll('.map-pin').forEach(item => item.classList.remove('active'));
-      pin.classList.add('active');
-      document.querySelector('#map-title')?.replaceChildren(document.createTextNode(pin.dataset.mapTitle));
-      document.querySelector('#map-place')?.replaceChildren(document.createTextNode(pin.dataset.mapPlace));
-    }
   });
 
   const searchInput = document.querySelector('#event-search');
