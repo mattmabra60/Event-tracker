@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved events · WTM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+    <script src="javascript.js" defer>
+    </script>
+  </head>
+  <body data-page="saved">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">w<span>t</span>m</span>
+          <span class="brand-copy">what's the<br />move?</span>
+        </a>
+        <nav class="side-nav">
+          <p class="nav-label">Explore</p>
+          <a class="nav-item" data-page="feed" href="index.html">
+            <span class="nav-icon">✦</span>
+            <span>For you</span>
+          </a>
+          <a class="nav-item" data-page="search" href="search.html">
+            <span class="nav-icon">⌕</span>
+            <span>Search events</span>
+          </a>
+          <a class="nav-item" data-page="map" href="map.html">
+            <span class="nav-icon">⌖</span>
+            <span>Map view</span>
+          </a>
+          <p class="nav-label saved-label">Your WTM</p>
+          <a class="nav-item" data-page="saved" href="saved.html">
+            <span class="nav-icon">♡</span>
+            <span>Saved events</span>
+            <span class="count">0</span>
+          </a>
+          <a class="nav-item" data-page="profile" href="profile.html">
+            <span class="nav-icon">◉</span>
+            <span>Profile</span>
+          </a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="weather-card">
+            <span class="weather-icon" data-weather-icon>☀</span>
+            <div>
+              <strong data-weather-temp>--°</strong>
+              <small data-weather-location>Loading weather…</small>
+            </div>
+          </div>
+          <div class="mini-profile">
+            <div class="avatar avatar-small" data-profile-avatar>WT</div>
+            <div>
+              <strong data-profile-name>Sign in to WTM</strong>
+              <small data-profile-handle>@your_handle</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="mobile-header">
+          <a class="brand" href="index.html">
+            <span class="brand-mark">w<span>t</span>m</span>
+          </a>
+          <button class="icon-button" aria-label="Open menu">☰</button>
+        </header>
+        <section class="page-section active-page">
+          <div class="topbar">
+            <div>
+              <p class="eyebrow">YOUR SHORTLIST</p>
+              <h1>Saved for <em>later.</em>
+            </h1>
+          </div>
+        </div>
+        <div class="saved-note">
+          <span>♡</span>
+          <div>
+            <strong>Good choices.</strong>
+            <p>These are the events you said you wanted to remember.</p>
+          </div>
+        </div>
+        <div class="saved-list" id="saved-list">
+          <div class="empty-state">Loading your saved events…</div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+

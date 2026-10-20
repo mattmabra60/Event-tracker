@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile · WTM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+    <script src="javascript.js" defer>
+    </script>
+  </head>
+  <body data-page="profile">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">w<span>t</span>m</span>
+          <span class="brand-copy">what's the<br />move?</span>
+        </a>
+        <nav class="side-nav">
+          <p class="nav-label">Explore</p>
+          <a class="nav-item" data-page="feed" href="index.html">
+            <span class="nav-icon">✦</span>
+            <span>For you</span>
+          </a>
+          <a class="nav-item" data-page="search" href="search.html">
+            <span class="nav-icon">⌕</span>
+            <span>Search events</span>
+          </a>
+          <a class="nav-item" data-page="map" href="map.html">
+            <span class="nav-icon">⌖</span>
+            <span>Map view</span>
+          </a>
+          <p class="nav-label saved-label">Your WTM</p>
+          <a class="nav-item" data-page="saved" href="saved.html">
+            <span class="nav-icon">♡</span>
+            <span>Saved events</span>
+            <span class="count">0</span>
+          </a>
+          <a class="nav-item" data-page="profile" href="profile.html">
+            <span class="nav-icon">◉</span>
+            <span>Profile</span>
+          </a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="weather-card">
+            <span class="weather-icon" data-weather-icon>☀</span>
+            <div>
+              <strong data-weather-temp>--°</strong>
+              <small data-weather-location>Loading weather…</small>
+            </div>
+          </div>
+          <div class="mini-profile">
+            <div class="avatar avatar-small" data-profile-avatar>WT</div>
+            <div>
+              <strong data-profile-name>Sign in to WTM</strong>
+              <small data-profile-handle>@your_handle</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="mobile-header">
+          <a class="brand" href="index.html">
+            <span class="brand-mark">w<span>t</span>m</span>
+          </a>
+          <button class="icon-button" aria-label="Open menu">☰</button>
+        </header>
+        <section class="page-section active-page">
+          <div class="profile-cover">
+            <div class="cover-text">LOCAL<br />
+            <em>ENERGY</em>
+          </div>
+        </div>
+        <div class="profile-heading" id="profile-heading">
+          <div class="avatar avatar-large" data-profile-avatar>WT</div>
+          <button class="edit-profile" type="button" data-edit-profile>Edit profile</button>
+          <button class="profile-signout" type="button" data-sign-out>Sign out</button>
+            <h1 id="profile-name">Your profile</h1>
+            <p id="profile-location">Sign in to personalize your profile</p>
+          <div class="profile-stats">
+            <span>
+              <strong id="profile-saved-count">0</strong>events saved</span>
+          </div>
+        </div>
+        <div class="profile-section-title">
+          <h2>Account settings</h2>
+          <span>private</span>
+        </div>
+        <p class="profile-helper">Keep your name, handle, location, and avatar up to date so WTM can personalize your experience.</p>
+            </section>
+          </main>
+        </div>
+        <div class="profile-modal" id="profile-modal" hidden>
+          <div class="profile-modal-backdrop" data-close-profile></div>
+          <form class="profile-modal-card" id="profile-form">
+            <div class="modal-heading"><div><span class="eyebrow">YOUR DETAILS</span><h2>Edit profile</h2></div><button type="button" class="modal-close" data-close-profile aria-label="Close">×</button></div>
+            <label>Display name<input name="display_name" type="text" maxlength="80" required /></label>
+            <label>Handle<input name="username" type="text" maxlength="30" pattern="[A-Za-z0-9_]+" placeholder="your_handle" /></label>
+            <label>Avatar image URL<input name="avatar_url" type="url" placeholder="https://..." /></label>
+            <div class="form-row"><label>City<input name="city" type="text" maxlength="50" /></label><label>State<input name="state" type="text" maxlength="30" /></label></div>
+            <p class="profile-form-message" aria-live="polite"></p>
+            <button class="auth-submit" type="submit">Save changes</button>
+          </form>
+        </div>
+      </body>
+    </html>
+

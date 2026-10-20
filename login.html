@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in · WTM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="javascript.js" defer></script>
+  </head>
+  <body data-page="auth">
+    <main class="auth-page">
+      <div class="auth-layout">
+        <section class="auth-intro">
+          <a class="brand" href="index.html"><span class="brand-mark">w<span>t</span>m</span><span class="brand-copy">what's the<br />move?</span></a>
+          <div><h1>Find your <em>people.</em></h1><p>Save the events that feel like you, see what is happening nearby, and make tonight worth remembering.</p></div>
+          <div class="auth-art">✳<br /><small>LOCAL<br />ONLY</small></div>
+        </section>
+        <section class="auth-card">
+          <h2 id="auth-title">Welcome back</h2>
+          <p>Sign in to save events and let your people know what you are going to.</p>
+          <form class="auth-form" id="auth-form">
+            <label id="auth-name-field" hidden>Name<input name="name" type="text" autocomplete="name" placeholder="Example Name" /></label>
+            <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+            <label>Password<input name="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required /></label>
+            <button class="auth-submit" type="submit">Sign in</button>
+          </form>
+          <p class="auth-message" aria-live="polite"></p>
+          <button class="auth-switch" type="button">New here? Create an account</button>
+          <a class="auth-back" href="index.html">← Back to exploring</a>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
