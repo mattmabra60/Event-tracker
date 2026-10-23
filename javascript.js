@@ -528,6 +528,7 @@ async function initAuth() {
   const submit = form.querySelector('.auth-submit');
   const switchButton = document.querySelector('.auth-switch');
   const nameField = document.querySelector('#auth-name-field');
+  const emailInput = form.elements.email;
   const message = document.querySelector('.auth-message');
   switchButton?.addEventListener('click', () => {
     signUpMode = !signUpMode;
@@ -535,6 +536,8 @@ async function initAuth() {
     submit.textContent = signUpMode ? 'Create account' : 'Sign in';
     switchButton.textContent = signUpMode ? 'Already have an account? Sign in' : 'New here? Create an account';
     nameField.hidden = !signUpMode;
+    if (signUpMode) emailInput.maxLength = 30;
+    else emailInput.removeAttribute('maxlength');
     message.textContent = '';
   });
   form.addEventListener('submit', async event => {
